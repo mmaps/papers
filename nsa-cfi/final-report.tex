@@ -1,0 +1,852 @@
+%% bare_conf_compsoc.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE Computer
+%% Society conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+\documentclass[conference,compsoc]{IEEEtran}
+% Some/most Computer Society conferences require the compsoc mode option,
+% but others may want the standard conference format.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference,compsoc]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+\ifCLASSOPTIONcompsoc
+  % IEEE Computer Society needs nocompress option
+  % requires cite.sty v4.0 or later (November 2003)
+  \usepackage[nocompress]{cite}
+\else
+  % normal IEEE
+  \usepackage{cite}
+\fi
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+%
+% Note that some packages require special options to format as the Computer
+% Society requires. In particular, Computer Society  papers do not use
+% compressed citation ranges as is done in typical IEEE papers
+% (e.g., [1]-[4]). Instead, they list every citation separately in order
+% (e.g., [1], [2], [3], [4]). To get the latter we need to load the cite
+% package with the nocompress option which is supported by cite.sty v4.0
+% and later.
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a sans serif font rather
+% than the serif font used in traditional IEEE formatting and thus the need
+% to invoke different subfig.sty package options depending on whether
+% compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+%\usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+\usepackage{url}
+\usepackage{framed}
+\usepackage{fancyvrb}
+\usepackage[all]{nowidow}
+\usepackage{listings}
+\lstdefinestyle{mystyle}{
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    xleftmargin=10pt,
+    frame=lines,
+    aboveskip=15pt,
+    belowskip=10pt
+}
+\lstset{style=mystyle}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{multirow}
+%\PassOptionsToPackage{table}{xcolor}
+\usepackage{float}
+\restylefloat{table}
+%\usepackage{minted}
+%\usemintedstyle{tango}
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+
+\title{An Evaluation in C: Surveying Control Flow Integrity}
+%\title{Control C: Interrupting Flow}
+%\title{Flowin' Nowhere: Progress in Control Flow Defenses}
+%\title{This Paper Will Flow Your Mind}
+%\title{Control Yourself: Your Programs Can't}
+
+% * <jeffbrandon2010@gmail.com> 2015-12-15T18:25:57.418Z:
+%
+% > Evaluation
+% Brainstorm alternate titles given time, to come up with something less generic
+% and maybe a bit catchier
+% ^.
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Michael Appel}
+\IEEEauthorblockA{Information Networking Institute\\
+Carnegie Mellon University\\
+Pittsburgh, PA 15213\\
+Email: moappel@andrew.cmu.edu}
+\and
+\IEEEauthorblockN{Jeff Brandon}
+\IEEEauthorblockA{Information Networking Institute\\
+Carnegie Mellon University\\
+Pittsburgh, PA 15213\\
+Email: jdbrando@andrew.cmu.edu}
+\and
+\IEEEauthorblockN{Tian Tan}
+\IEEEauthorblockA{Information Networking Institute\\
+Carnegie Mellon University\\
+Pittsburgh, PA 15213\\
+Email: tiant@andrew.cmu.edu}}
+
+% make the title area
+\maketitle
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+Software vulnerabilities allow hackers to gain control of a program by redirecting the flow of execution to undesired code. It would be ideal for a system to have some built in protections to ensure that even vulnerable programs are constrained to their intended execution path. This is control flow integrity (CFI). The National Security Agency (NSA) has released a proposal for CFI, which utilizes hardware to overcome shortcomings found in CFI research. The NSA has also released instrumented ELF64 programs, a GNU library (GLIBC) and a loader, which performs standard functionality as their Linux counterparts. The goal of this paper is to evaluate the NSA's proposal for strengths and weaknesses by analyzing the given programs and libraries. We develop a new gadget discovery algorithm for this CFI system, develop tools to find and extract gadgets for analysis, and evaluate the provided binaries against CFI attacks from recent research.
+% TODO We should add one or two sentences about the results when we formalize them
+
+% The instrumentation is mainly for defeating return oriented programming (ROP) by largely reducing the number of reusable code (by attackers), aka gadgets in a program. 
+\end{abstract}
+
+% no keywords
+
+
+\section{Introduction}
+Control flow is the sequence of instructions executed by a running program. Based on a program’s state, this flow can take different paths by changing the location in the code the CPU fetches instructions. This location is pointed to by the address stored in the \texttt{eip} register of x86 systems. Beginning with the main function each possible branching point in the execution of a program (if statements, function calls, loops, etc. ) delineates an atomic piece of a program, with respect to execution, called a basic block. The set of these basic blocks can be modeled as nodes in a graph, where a directed edge is drawn between two basic blocks if their instructions are connected in a valid execution of the program. This data structure is a control flow graph (CFG), which represents the model of possible execution paths a program can take. A programmer expects a running program to proceed only through the basic blocks they have defined. If the \texttt{eip} only ever fetches instructions from those nodes, and execution only traverses between nodes on those edges then the program has control flow integrity (CFI). The principle of CFI assures that execution only proceeds according to the original programmer's intent.
+
+However, software attacks break this assumption of integrity primarily by either executing attacker controlled code somewhere in memory (a violation by adding nodes and edges to the CFG), or reordering the execution of pieces of code that are already loaded in memory (a violation by adding edges to the CFG). For example, a skilled attacker may overflow a buffer to overwrite a return address to a value of their choosing \cite{alephone}. This historic stack smashing attack works by writing past the bounds of a local variable to cover the return address of the function's stack frame with the location of malicious code\cite{alephone}. When the function attempts to return to the caller, the CPU pops the malicious address from the stack into \texttt{eip}, and the CPU is now fetching and executing the attacker's instructions.
+
+In response to attacks like stack smashing, systems were designed with measures like non-executable stacks, called data execution prevention (DEP) in Windows. It is implemented in hardware using the NX bit of Intel chips, which allows the operating system (OS) to define regions of memory that cannot be executed. Attackers overcame DEP by developing heap-based attacks and techniques like "return to libc" (\emph{ret2libc}), return-oriented-programming (ROP), and jump-oriented-programming (JOP).
+
+Heap-based exploits work by injecting code in non-stack memory locations, and therefore executing malicious code from the heap instead of the DEP protected stack\cite{Foster}. In \emph{ret2libc}, attackers store addresses of functions included in the program, which are necessarily not on the stack and therefore bypass DEP by picking particular functions to carry out arbitrary operations\cite{SolarDesigner}.
+
+Shacham introduced ROP along with the concept of \emph{gadgets} (a sequence of instructions ending with ret or similar control flow changing instruction), which makes return-type attacks more effective by eliminating the restriction to calling library functions\cite{Shacham:2007}. In ROP, attackers craft the series of gadgets to perform an exploit in the face of DEP, but not the gadgets themselves\cite{goktas}. Since the attacker reuses the program or library code, a non-executable stack will not prevent this type of exploit. With CFI, the number of available gadgets is greatly reduced because not every address is a valid control-transfer point. However, coarse-grained CFI only partially protects the program because attackers could point the return address to library functions which are powerful and valid control-transfer points\cite{carlini}. Such functions have the ability to invoke a shell or change the permissions of memory pages to inject code \cite{goktas}.
+
+These kinds of attacks prompted another defensive measure, address space layout randomization (ASLR), which randomizes included function addresses at load time, thus making it harder for attackers to guess the locations to fill their return chains. However, ASLR also has weaknesses, especially in 32-bit Linux and BSD machines\cite{Shacham:2004}, and several bypasses have been demonstrated theoretically and found in the wild\cite{Wang, Chen}.
+
+All of these attacks necessarily violate the CFI of the program. Therefore, assuring CFI in a system's execution prevents exploitation even if the code being attacked is vulnerable. Execution cannot jump to locations that are not defined by the program as a valid next instruction. Attackers also cannot reorder existing code in a meaningful way \cite{abadi}. Therefore, CFI offers strong guarantees for protection against currently modeled attacks, but its complicated implementations need to be evaluated in order for it to be trusted.
+
+Researchers and programmers have created solutions to software attacks as they arose\cite{Cowan, Vendicator}. However, these software based solutions have been shown to be quickly defeated \cite{Richarte}. The result is an arms-race between attackers and defenders, where the defenders seem to always follow in the footsteps of new attacks. Therefore, a more effective solution is required to guarantee CFI. To that end, the NSA has developed an approach to CFI protections that combines hardware and software, and would require significant industry acceptance to be widely deployed. The NSA project functions as a starting point for organizations to begin researching the adoptions of the proposed strategies \cite{NSAGitHub}.
+
+The proposal calls for the addition of only two features: landing point (LP) instructions and a protected shadow stack \cite{NSAGitHub}. LP instructions are generated at compile time or inserted in existing binaries with reference source (i.e. recompiling). They provide hardware based, coarse grained guarantees in the points of possible changes in control flow by creating a bitmap of all possible branches.
+
+The NSA implements three new instructions to instrument programs: call landing point (\texttt{clp}), jump landing point (\texttt{jlp}), and return landing point (rlp). \texttt{clp} is the first instruction of a function to disallow the program to call any address. \texttt{jlp} is supposed to be placed at the target address of jump instructions, but it becomes a challenge which will be covered in the Difficulties section. rlp is placed immediately after a call, to ensure that the program could not return to any attacker chosen addresses.
+
+Shadow stacks complement LP instructions because they handle fine grained control at run-time \cite{abadi}. The program saves copies of return addresses to the shadow stack when calls are made, and checks or overwrites the return address used by the retn instruction. This either restores execution preventing an attack, or halts the program logging awareness of the attack. The NSA notes that the shadow stack must be protected to avoid corruption by the very vulnerabilities it was designed to prevent.
+
+The NSA has produced a detailed proposal of the possible system with recommendations for future work and adoption \cite{NSAGitHub}. Along with the proposal, they have open sourced an instrumented C library and sample programs that are protected under their new scheme. While the NSA’s CFI project is detailed and thorough, there has been little explicit study into the practical strengths and weaknesses of their approach. Thus our work is to reason about the defenses of the implementation, and provide proof of theory or empirical evidence of its threat reduction capabilities. This added confidence helps strengthen the argument for industry partners to move forward with adopting these kinds of protections, and implementing the changes necessary in hardware and system software design.
+
+The outline of this paper follows. First, we will survey the related work in section \ref{sec:related}, and analyze the most promising attacks in recent research against the NSA's proposal in section \ref{sec:attacks}. In section \ref{sec:environment}, we will describe the testing environment setup to run instrumented programs on platforms that do not include the future hardware instructions or instrumented libraries. Next, we will define our gadget discovery algorithm, and provide manual analysis in section \ref{sec:gadgets}. Then we detail our exploit on a provided, minimal program in section \ref{sec:exploit}. We also address future work to be completed in section \ref{sec:future} and provide some final remarks in section \ref{sec:conclusion}.
+
+\section{Related Work}\label{sec:related}
+
+The history of CFI research is rich and provides a strong example of the cat-and-mouse game often observed between attackers and defenders in the computer security field. Rather than discuss the history of all CFI solutions and attacks here, we will present the latest strategies for offense and defense that are the most relevant to our research.
+
+One component of CFI research that is frequently discussed is the shadow stack. This method is the most common for enforcing fine grained CFI. Shadow stack implementation, security gains, and vulnerabilities have been discussed at length \cite{abadi,dang,evans,conti,carlini,schwartz}. The main contribution a shadow stack makes over a statically enforced CFG is seen in the case where a function is called from multiple locations, which is often the case in the real world.
+
+Given only a CFG, a run time monitor only has knowledge of valid addresses that a function could return to during a valid execution, not which address specifically should be returned to after the current call completes. The traditional user-mode stack is vulnerable to corruption from vulnerabilities like buffer overflows. Thus, we cannot trust the return address that is stored on the traditional stack, that is defined by x86 architecture conventions.
+% * <moappel@gmail.com> 2015-12-16T01:27:14.070Z:
+%
+% > The traditional user-mode stack is vulnerable to corruption from vulnerabilities like buffer overflows. Thus, we cannot trust the return address that is stored on the traditional stack, that is defined by x86 architecture conventions.
+%
+% Better?
+%
+% ^ <jeffbrandon2010@gmail.com> 2015-12-16T21:25:40.627Z.
+% * <jeffbrandon2010@gmail.com> 2015-12-15T19:12:15.664Z:
+%
+% > Because the stack is vulnerable to corruption from buffer overflow exploits, we cannot trust the return address that is stored on the stack, as defined by x86 architecture conventions
+%
+% I may need a little help with this sentence, does this make sense?
+%
+% ^ <jeffbrandon2010@gmail.com> 2015-12-16T19:17:58.103Z.
+
+The shadow stack is a data structure which mirrors the intended return addresses at the time a function is called. This allows for a dynamic run-time flow of information that can ensure a function returns to exactly the location it was called from. It is important to note that the shadow stack, if stored in unprotected memory, could also be corrupted, thus invalidating the security gains it offers. Therefore, it is important that the shadow stack be stored in a way such that it is protected.
+
+Abadi et al. discuss inlined CFI Enforcement \cite{abadi} which operates in a similar way to the proposed solution by the NSA \cite{NSAGitHub}. Abadi et al. demonstrate low performance overhead that is practical for modern processors. Their solution involves modifying existing binary files, essentially recompiling them to support machine code level CFI policy enforcement. 
+
+Other significant contributions have been made by Carlini et al. in their paper \emph{Control Flow Bending: On the Effectiveness of Control-Flow Integrity} \cite{carlini}. In this paper the authors show that powerful attacks are still possible given a precise static CFI implementation. Control-Flow Bending refers to non-control-data attacks and represents a class of attacks that the NSA solution is potentially vulnerable to, but also beyond the scope of what the solution defends against. They provide an excellent argument on how CFI defenses should be measured in addition to attacks that reinforce the need for a shadow stack. They conclude that shadow stacks may have challenges, but CFI cannot be well-achieved without them. The authors oppose evaluating software with metrics like AIR \cite{Zhang:2013:COTS} because they do not take into account the use of each remaining gadget and they do not account for a program's size in the percentage reduction.
+
+A major contribution to CFI research made by Evans et al. provides an outline and proof of concept for a class of attack they call \emph{Argument Corruptible Indirect Call Site} or ACICS \cite{evans}. This attack circumvents fine grained CFI and shadow stack protections by modifying a function pointer and the arguments provided to that function when it is called. This type of vulnerability does not break CFI, and is undetectable by a shadow stack because the exploit occurs on the forward edge of the call. An attacker would be able to call library functions of their choosing which is a serious breach in security. A common technique would be to make a call to \verb|exec("/bin/sh")| to provide a shell.
+
+An element of analysis we find relevant to our work is provided by Goktas et al. in their work titled \emph{Out of Control} where they provide a framework for ROP Gadget analysis \cite{goktas}. We aim to perform concrete analysis on the gadgets available to an attacker given the constraints imposed by the CFI implementation the team at the NSA has designed. 
+
+\section{Attack Analysis} \label{sec:attacks}
+
+In this section we cover the latest research in attacking coarse and fine-grained CFI and shadow stack implementations. We perform manual analysis of the proposed attacks in each paper and prove why it would or would not work in the NSA's proposal. Our preliminary results are that most of the attacks are thwarted, however, several still exist.
+
+
+\subsection{Control-flow Bending} \label{sec:Control-FlowBending}
+
+Carlini et al. evaluate attacks with and without a shadow stack implementation in \emph{Control-Flow Bending} \cite{carlini}. They also propose basic metrics to evaluate the defenses of CFI implementations\cite{carlini} without problematic metrics like AIR \cite{Zhang:2013:COTS}. The \emph{Basic Exploitation Test} (BET) is a procedure to check for broken, insecure CFI which may be more effective than AIR.
+
+A pass on the BET does not necessarily mean the CFI is secure, but it ensures it is not broken. The BET is the basic approach we have taken in our attack. Carlini et al. define this test as selecting a minimal program with a realistic vulnerability, and selecting attacker goals evaluate this possible exploit against a given CFI scheme. They propose the use of minimal programs since large programs make attacks easier because of a larger gadget pool.
+
+The goals of the attacker in the BET may be arbitrary code execution, confined code execution, or information leakage\cite{carlini}. Their example succeeds in the face of a very similar CFI scheme as the NSA proposal. They are effectively using LPI. Their program fails the BET because of an over-written return address that leads to several return chained gadgets. The NSA proposal would pass this test if the shadow stack was implemented because the chaining and initial overwrite would be caught.
+
+The \emph{control flow bending} attack, like ACICS gadgets, is one that CFI is not well prepared to deal with. In the case studies of attacks, Carlini et al. find that corrupting arguments to functions, including \texttt{printf}, provide enough input for attackers to achieve certain objectives. In the presence of a shadow stack the success is greatly reduced. In fact, they find that arbitrary code execution is not possible in any case. However, \texttt{printf} computation on memory and information leakage is still possible\cite{carlini}.
+
+Like ACICS gadgets these attacks are not necessarily violating CFI. They are corrupting arguments to functions that are being mishandled. These defenses are outside the scope of CFI, but the attacks do reorder the sequence of basic blocks that are protected by this proposal. 
+
+\subsection{Control Jujutsu} \label{sec:ControlJujutsu}
+
+\emph{Control Jujutsu: On the Weaknesses of Fine-Grained Control Flow Integrity} provides a new type of gadget, ACICS, and an ACICS Discovery Tool (ADT), which can help automate this process. The tool finds Indirect Call Sites (ICS) and target function pairs, which would allow an attacker to influence the value used at that ICS.
+
+Evans et al. use Apache and nginx to create proof of exploits. Their ACICS gadgets are successful in calling arbitrary functions that already exist. The attacks are especially powerful because they control the arguments to the arbitrary functions as well. If \emph{Control Jujutsu} was applied in Carlini et al.'s BET it may not have been quite as successful since the attack surface and ACICS gadgets were so reduced.
+
+Reordering and retargeting vulnerabilities, though, are not necessarily well-addressed by CFI and shadow stacks. The \emph{Control Jujutsu} attack could impact an application protected by the NSA's proposal. Arguments are not protected in this scheme, and we show that an overwritten function pointer will, of course, be executed as a regular function call without violating CFI.
+
+
+\subsection{Losing Control} \label{sec:LosingControl}
+
+\emph{Losing Control} by Conti et al. \cite{conti} presents several excellent attacks on software protected systems such as StackGuard \cite{Cowan} and StackArmor \cite{chen2015stackarmor}. The attacks are on spilled registers containing CFI values, user mode return addresses from system calls, shadow stack exploits, and heap corruptions. Most of their attacks were presented with proofs-of-concept.
+
+The first attack exploits the values spilled from registers by compilers under high register pressure or function call procedures. During compilation if registers are needed to execute some instructions, but their values must be preserved then they are saved onto the stack. Their values are restored before they are needed again or the callee returns, for example. This attack relies on the compiler spilling values like saved target addresses, which can be over-written by attackers. This assumes attackers can write to the stack before the value is restored. The NSA proposal defeats this attack because no registers are involved in the shadow stack. The instructions are placed on the shadow stack immediately by \texttt{clp} and checked during the \texttt{rlp} instruction. They are not stored in registers, and therefore they cannot be spilled and overwritten. A user-mode stack return address that is overwritten will be caught by the shadow stack.
+
+Next, Conti et al. bypass CFI protections by altering return addresses from system calls that use \texttt{sysenter}. This exploit affects 32-bit x86 applications, even those running on 64-bit environments. When \texttt{sysenter} is used, or approximated for 32-bit programs in x86\_64, the return address is saved to the user mode stack, which is restored more quickly when returning from privileged mode \cite{conti}. The attack utilizes a parallel thread in the some process to overwrite that user-mode return address. This attack fails in the NSA proposal again because the shadow stack addresses are saved in hardware secured memory. Despite the \texttt{sysenter} implementation, the shadow stack would retain the correct value.
+
+Shadow stacks are examined directly, next. Conti et al. find that context switches between threads may not clear important values like the shadow stack location from registers. In the NSA proposal the shadow stack is stored in a separate page table. The \texttt{CR3} control register is used to handle addressing at mirrored offsets to the normal shadow stack. Therefore there is nothing to leak. Only \texttt{clp} and \texttt{rlp} instructions can interact with the shadow stacks page table. Therefore, this attack is also defeated.
+
+Finally, they use JavaScript in Chromium to exploit a known vulnerability and eventually overwrite \texttt{vTable} pointers in \texttt{C++} objects. The \texttt{vTable} pointer references a read-only location in memory housing a table of function pointers for a class. These pointers can be overwritten in an attack that causes all function calls by that object to resolve to a malicious target sometimes shellcode\cite{smashingvptrs}. This attack is possible, but constrained, under the NSA proposal. If the attacker can overwrite an object's \texttt{vPtr} then it must target executable code that begins with a \texttt{clp}. If the attacker can craft that code on an executable heap (e.g. JavaScript heap spraying) then adding a LPI is trivial. When the object's function is called, the malicious code will be instead. The initial arguments may not be under the attacker's control, but they gain full execution.
+
+
+\section{Testing Environment} \label{sec:environment}
+
+Our testing environment is Ubuntu 14.04 AMD64, kernel version is 3.19.0-25. We started with Ubuntu 15.04, due to the fact that NSA programs are compiled with their own compiler, \texttt{gdb} and \texttt{objdump} refuse to run with them. We tried to find out why the programs failed to see if we could fix this problem, but it turned out to be extremely time consuming. Then we went for an alternate method, which was to set up virtual machines of different versions of Linux distributions and test \texttt{objdump} and \texttt{gdb} with NSA programs. Below is a list of distributions we have tested.
+\begin{itemize}
+  \item Ubuntu 15.04 AMD64
+  \item Kali Linux 2.0 AMD64
+  \item Fedora 23 AMD64
+  \item Ubuntu 14.04 AMD64
+\end{itemize}	
+In conclusion, Ubuntu 14.04 is the only one we found in which \texttt{objdump} and \texttt{gdb} both work out of the box. However, \texttt{objdump} doesn't disassemble instructions correctly. The symbols that \texttt{objdump} uses don't align with the correct library function address that NSA programs call into, which lead to bad resolution of symbols and occasional misaligned instructions. This is not a big issue most of the time. With source code, we are able to fix symbols output by \texttt{objdump}.
+
+
+\section{Gadgets} \label{sec:gadgets}
+
+In order to determine the strength of an attacker, we have analyzed the gadgets present in the instrumented binaries provided by the NSA\cite{NSAGitHub}. First, we define a gadget discovery algorithm since these are not traditional ROP gadgets. We find the number of all possible gadgets, and filter those to reduce manual work load. Finally, we perform manual analysis on those filtered gadgets to determine their usability.
+
+
+\subsection{Gadget Discovery} \label{sec:gdiscovery}
+
+Gadgets in this CFI implementation are simple to find, but difficult to define. Traditional ROP gadgets end with a \texttt{ret} statement, and start wherever the attacker has decided it is useful. The LPI instructions in the NSA proposal are the only possible starting points for gadgets\cite{NSAGitHub}. These are defined as landing point gadgets (LPG). In an x86 architecture this reduces the starting point from any executable byte (assuming things like DEP are in place) to only those defined by LPI. However, the end of the gadget is harder to decide.
+
+The end of a ROP gadget is where the stack pointer is adjusted and jumped to, but a LPG is ended where the attacker loses control. Usually this is at a branch statement, especially indirect calls and jumps. However, these short gadgets may be extended. If the attacker can influence the registers providing the indirect addresses, or if the attacker doesn't care what happens in a \texttt{call}, for example, because it returns to their desired code then the gadget is a larger virtual gadget comprised of the smaller LPG\cite{NSAGitHub}.
+
+\begin{lstlisting}[label=lst:lpg, caption=Example LPG\, call-preceded]
+clp					; Must start with LPI
+sub 	rsp, 0x8
+mov 	r9d, r8d
+mov 	r8, rcx
+mov 	ecx, 0x1	; Gadget could end here
+call 	0x30520
+rlp					; Returns must hit an rlp
+add 	rsp, 0x8
+ret 				; Must go back to the caller
+\end{lstlisting}
+
+The correct definition of the gadget, therefore depends on the attacker's point of view. If the attacker uses methods like those described in section \ref{sec:attacks} then they are using something like call-preceded programming\cite{carlini2014rop}. This allows and may require more lengthy, complicated gadgets, like entire function calls. On the other hand, if the attacker is using small LPG while influencing indirect branches, then the end of the gadget is the first free branch. Listing \ref{lst:lpg} shows the logical gadget made of a \texttt{clp} gadget, starting at line 1, and a \texttt{rlp} gadget starting at line 7. The most successful attacks in the related work usually craft malicious argument values to functions, so the \texttt{clp} gadget may be more powerful when executed as a whole. Without a shadow stack the \texttt{rlp} gadget provides a useful stack pointer manipulation.
+
+\begin{table*}[!ht]
+\renewcommand{\arraystretch}{1.3}
+\centering
+\caption{Possible LPI gadget counts with and without a shadow stack compared to ROP gadgets and AIR metric according to executable size}
+\label{tbl:lpicounts}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+%\rowcolor{white!50}
+File Name & Size & \texttt{clp} & \texttt{jlp} & \texttt{rlp} & CFI only & AIR & CFI with shadow stack & AIR & ROP Gadgets\\
+\hline
+\hline
+libc.so.6 & 146211 & 2762 & 829 & 10097 & 13688 & 0.9906 & 3591 & 0.9975 & 15977 \\
+\hline
+ls & 113494 & 364 & 325 & 1128 & 1817 & 0.9863 & 689 & 0.9948 & 1522\\
+\hline
+stack-functionptr & 2133 & 19 & 7 & 19 & 45 & 0.9789 & 26 & 0.9878 & 74\\
+\hline
+stack-return & 1924 & 17 & 6 & 17 & 40 & 0.9792 & 23 & 0.9880 & 77\\
+\hline
+\end{tabular}
+\end{table*}
+
+The counts of the number of possible LPI gadgets found in the first step of our discovery is shown in table \ref{tbl:lpicounts}. These counts do not reflect gadgets filtered for quality, which is covered in section \ref{sec:ganalysis}. The AIR metric is given, but it should be taken with a grain of salt\cite{carlini}. We calculate the AIR value according to the executable section size found with \texttt{size}, and with the unfiltered gadget counts which should show the least reduction. However, the problem identified by Carlini et al. is evident since all programs achieve similar scores, but the remaining gadget counts vary greatly.
+
+The NSA proposal suggests that CFI and the shadow stack could be implemented separately. However, these numbers show that removing the \texttt{rlp} gadgets first, by implementing a shadow stack, is more useful in reducing the attack surface of the program. Our demonstrated exploit, based on the attacks cited in section \ref{sec:attacks}\cite{carlini,evans,conti}, also shows that the forward edge protections of CFI may not provide the guarantees desired. In essence, if the choice is implementing one or the either it seems a shadow stack is more appropriate to do first.
+
+
+\subsection{Gadget Analysis} \label{sec:ganalysis}
+
+In our analysis we defined gadgets as any that begin at a LPI, and continue until an indirect \texttt{jmp} (conditional or not) or \texttt{call}. We further filter these gadgets to a useful length of 10 instructions\cite{carlini2014rop}. All gadgets are collected, regardless of a shadow stack implementation. If a shadow is in place, then \texttt{rlp} gadgets are discarded since it is impossible to use a \texttt{ret} or jump oriented programming (JOP) using a \texttt{pop} and \texttt{jmp} to that address\cite{bletsch2011jump}.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.3}
+\centering
+\caption{Counts of Practical Gadgets From \texttt{gadget-finder}}
+\label{tbl:gadgetcounts}
+\begin{tabular}{|c|c|c|c|}
+\hline
+File Name & Gadget & Possible & Practical\\
+\hline
+\multirow{3}{4em}{libc} & \texttt{rlp} & 10097 & 5022\\
+& \texttt{clp} & 2762 & 1004\\
+& \texttt{jlp} & 829 & 461\\
+\hline
+\multirow{3}{4em}{stack-functionptr} & \texttt{rlp} & 19 & 15\\
+& \texttt{clp} & 19 & 13\\
+& \texttt{jlp} & 7 & 7\\
+\hline
+\end{tabular}
+\end{table}
+
+Table \ref{tbl:gadgetcounts} reflects the amount of impractical gadgets filtered based on our definition. The overwhelming majority of gadgets belong to the \texttt{rlp} class. Our manual analysis found that \texttt{rlp} gadgets tended to be more useful than the others. There was a common pattern of a \texttt{call} shortly before the \texttt{ret} of a function. This places an \texttt{rlp} near the end which creates short, simple gadgets. Short gadgets are usually the most useful\cite{Shacham:2007,homescu2012microgadgets} because they can achieve objectives without side-effects. This further suggests that a shadow stack protecting the backward edge of control flow may be important enough to implement before protecting the forward edge. This would reduce the attack surface considerably.
+
+\begin{lstlisting}[caption={Example Difficult rlp gadget}, label={lst:incgadget}]
+400707:   0f 1f 40 cc           rlp     <=
+40070b:   c6 05 66 05 20 00 01	mov byte [rip+0x200566], 0x1
+400712:   48 83 c4 08        	add rsp, 0x8
+400716:   5b                  	pop rbx
+400717:   5d                  	pop rbp
+400718:   c3                  	ret
+\end{lstlisting}
+
+Our analysis of the minimal program \texttt{stack-functionptr}\cite{NSAGitHub} found no useful \texttt{clp} or \texttt{rlp} gadgets. However, we did find \texttt{rlp} gadgets with useful functions. These include stack pointer manipulation by arithmetic on \texttt{rsp} or \texttt{leave}, popping values into \texttt{rbp}, and one increment of a memory address but with side effects as in listing \ref{lst:incgadget}. A secured shadow stack would protect against all of these, however.
+
+We were unable to find a useful gadget chain in libc to proceed with an attack despite the numerous gadgets. We examined the methods of JOP, ROP, and \texttt{clp} and \texttt{jlp} gadgets. Our search for JOP attack vectors was unsuccessful. The presence of LPI near a dispatcher gadget was not found\cite{bletsch2011jump}. Therefore, the virtual JOP program counter method would not be possible.
+
+Our analysis of \texttt{clp} and \texttt{jlp} gadgets also did not prove fruitful. The gadgets had many side-effects, and we could not compile them into a working attack. The \texttt{clp} and \texttt{jlp} gadgets generally occur at the beginning or middle of functions, respectively. This makes them exceptionally long, which increases the interactions they have with memory and registers. Each of these interactions can break a gadget, or the values a previous gadget set. For example, overwriting a needed value, or trying to write to a register's address that does not point to valid memory. This is why gadgets are best in shorter size\cite{Shacham:2007,homescu2012microgadgets}. In the end, it was really only possible to treat these types of gadgets as full function calls, and attempt \emph{ret2libc} style attacks. When used without proper context these calls will almost certainly cause the program to crash due to invalid memory references.
+
+Another difficulty in the face of LPI when creating attacks, is that LPI practically forces gadgets to be aligned. The likelihood of the 4-byte LPI appearing unintentionally is intuitively much less than, for example, the single byte \texttt{ret} instruction: \texttt{0xC3}. Following, in an unintended gadget any ending branch must jump to an aligned LPI or an even less likely second unintended LPI. The likelihood of an unintended branch doing that is practically none. This is especially beneficial for defense because unintended gadget instructions account for a majority of found gadgets in libc\cite{bletsch2011jump}.
+
+This brings us to our next difficulty of "compiling" gadgets. After hitting the first LPI, we found it very difficult to chain to the next, especially in the presence of a shadow stack. Without a shadow stack, the \texttt{rlp} gadgets seemed more useful and interesting, but again we were not able to create a working exploit from them.
+
+
+\section{Exploiting Instrumented Binary}\label{sec:exploit}
+
+This section details our attempted exploitation of \texttt{stack-functionptr} in order to conduct our own BET as defined by Carlini et al. The NSA provided minimal programs, and versions of \texttt{ls} and \texttt{libc} which are compiled with the LPI\cite{NSAGitHub}. We provide a proof-of-exploit using the minimal program, \texttt{stack-functionptr} as seen in listing \ref{lst:vulnProg}. Line 13 has a call to \texttt{memcpy} that is vulnerable to an overflow. We use this overflow to rewrite the address of the function pointer, \texttt{fptr}, with the value of the function \texttt{exit} in the procedural linkage table (PLT).
+
+\begin{lstlisting}[caption={Program exploit}, label={lst:exploitcmd}]
+$ ./stack-functionptr 27 `perl -e 'print "A"x24,"\xb0\x05\x40"'`
+\end{lstlisting}
+
+For example, running the program with the arguments in listing \ref{lst:exploitcmd} will exploit the program's vulnerability. This results in a bending of the execution flow so that \texttt{foo} is not reached when called from line 14. This does not violate the proposed CFI and shadow stack, but instead leverages the same style of attacks in related work \cite{carlini,evans}. These classes of attacks break the ordering of control flow, which is not necessarily accounted for in \texttt{clp} and \texttt{jlp} instructions. Only the shadow stack provides protection against the reordering of possible landing sites.
+
+\begin{lstlisting}[language=C,caption={Vulnerable C Program},label={lst:vulnProg}]
+void foo();
+
+int main(int argc, char *argv[]) {
+void (*fptr)();
+char localbuf[16];
+
+	if (argc != 3) {
+		printf("Usage: %s length data\n", argv[0]);
+		exit (-1);
+	}
+/* corrupt main() stack frame */
+	fptr = foo;
+	memcpy(localbuf, argv[2], atoi(argv[1]));
+	(*fptr)();
+}
+
+void foo() {
+	printf("you are in foo\n");
+}
+\end{lstlisting}
+
+This exploit is trivial, and results in a simple denial of service by calling the exit function. In reality, any function could be called, but were constrained by an inability to control the arguments. The program is compiled for x86\_64, which passes arguments in registers. This led us to a circular logic, where to corrupt the arguments to the \texttt{clp} gadget, we needed to first use other gadgets to populate those values, which leads back to the issue of chaining LPI gadgets.
+
+However, even if this was a 32-bit program and passed arguments on the stack, we would not be able to overwrite the parameters for the function call. The variable we overflow, \texttt{localbuf} is above the addresses we would need to start overwriting, see table \ref{tbl:stackframe}.
+
+In essence, the restrictions in place by the NSA's proposal hampered efforts in making a serious attack by reducing the arsenal of gadgets, and using x86\_64 programs which are better protected with register passed parameters. However, as noted in section \ref{sec:Control-FlowBending} and \ref{sec:ControlJujutsu}, if it possible to corrupt the arguments to functions, as in an ACICS gadget\cite{evans}, then a successful attack may be mounted. Therefore, while this minimal binary passes the BET set by Carlini et al. because we did not completely achieve one of the attacker goals, if the shadow stack was not in place then the program would have failed the BET.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{1.3}
+\centering
+\caption{Stack Frame Layout From  \texttt{main} in \texttt{stack-functionptr}}
+\label{tbl:stackframe}
+\begin{tabular}{|c c c|}
+\hline
+Address & Variable & Stack Pointers\\
+\hline
+7FFFFFD860 & \ & rbp\\
+7FFFFFD858 & fptr &\ \\
+7FFFFFD850 & \ &\ \\
+7FFFFFD848 & localbuf &\ \\
+7FFFFFD840 & localbuf &\ \\
+7FFFFFD838 & argc &\ \\
+7FFFFFD830 & *argv & rsp\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\section{Future Work} \label{sec:future}
+
+The next step in this work is to implement the protections on larger programs like Apache or nginx, and attempt to replicate the attacks discovered by Carlini et al.\cite{carlini} and Evans et al.\cite{evans} The limitations of the current set are appropriate for BET, but may not provide enough attack surface to reveal as many gadgets as may be needed.
+
+Most attacks presented here are possible because the shadow stack cannot prevent attacks on a forward call edge, like in a call to libc attack. Researching the benefits of marking function pointers with some additional information about their valid call targets could yield promising results. This responsibility may fall to the developer and have difficulties with adoption rates as such. However, even a simple system of marking a function pointer to denote that it should never call library functions could prevent a great deal of attacks that programs are vulnerable to in spite of CFI and shadow stack solutions. We believe the overhead incurred for such a solution would be negligible.
+
+\section{Conclusion} \label{sec:conclusion}
+
+In this paper we have researched the current state of CFI and shadow stack attacks, and analyzed if those attacks would be prevented by the NSA's proposal. We defined a gadget discovery algorithm for the NSA's proposal, and performed analysis on the remaining set finding little of value. Most attacks are mitigated or weakened. However, \emph{Control Flow Bending}\cite{carlini} and \emph{Control Jujutsu}\cite{evans} are promising routes for attackers because they obey CFI landing sites and make use of software vulnerabilities that lead to retargeting indirect function calls. Finally, we demonstrate this attack in our own proof of exploit in a minimal program according to the BET \cite{carlini} defined by Carlini et al. Our results show that the proposal of CFI and shadow stack by the NSA greatly reduces the capabilities of attackers, but new and novel attacks are still possible.
+
+
+
+% conference papers do not normally have an appendix
+
+
+
+% use section* for acknowledgment
+\ifCLASSOPTIONcompsoc
+  % The Computer Society usually uses the plural form
+  \section*{Acknowledgments}
+\else
+  % regular IEEE prefers the singular form
+  \section*{Acknowledgment}
+\fi
+
+
+The authors would like to thank our professor, Dr. Patrick Tague, along with Melissa Dark and Purdue University, for fostering the work of the INSuRE program. As well as Andy White of the National Security Agency for excellent insights into CFI and willingness to share his expertise as our project technical director.
+
+
+
+
+\newpage
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{0}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{cfi}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{1}
+
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+%\end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+

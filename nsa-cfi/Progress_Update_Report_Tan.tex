@@ -1,0 +1,106 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{times}
+\usepackage{indentfirst}
+\usepackage{graphicx} % embedded graphics
+\usepackage{xspace, ifthen}
+\usepackage{amssymb, amsthm} % more mathematical symbols
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{anysize}
+\usepackage{cite}% Hyperlink references, citations, and footnotes
+
+
+% Hyperlink references, citations, and footnotes
+\usepackage[pdftex,colorlinks]{hyperref}
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat bookmarks
+    pdftoolbar=true,        % show Acrobat toolbar?
+    pdfmenubar=true,        % show Acrobat menu?
+    pdffitwindow=true,      % page fit to window when opened
+    pdftitle={},    % title
+    pdfauthor={},     % author
+    pdfsubject={},   % subject of the document
+    pdfnewwindow=true,      % links in new window
+    pdfkeywords={}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,          % color of internal links
+    citecolor=blue,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\begin{document}
+\title{Control Flow Integrity - Progress Update Report}
+\author{
+  Appel, Michael\\
+  \texttt{CMU-INI} \\
+  \texttt{moappel@cmu.edu}
+  \and
+  Brandon, Jeff\\
+  \texttt{CMU-INI} \\
+  \texttt{brandj@cmu.edu} 
+  \and
+  Tan, Tian \\
+  \texttt{CMU-INI} \\
+  \texttt{tiant@andrew.cmu.edu}
+}
+\maketitle
+\section{Project Description}
+Software vulnerabilities allow hackers to gain control of a system by redirecting the flow of the program, resulting in the execution of undesired pieces of code. It would be ideal for a program to have some built in mechanisms to ensure that the program is flowing in a correct path. NSA implements three new instructions to instrument programs: call landing point (CLP), jump landing point (JLP), and return landing point (RLP). CLP is the first instruction of a function to disallow the program to call any address. JLP is supposed to be placed at the target address of jump instructions, but it becomes a challenge which will be covered in the Difficulties section. RLP is placed immediately after a call, to ensure that the program could not return to any random addresses. The instrumentation is mainly for defeating return oriented programming (ROP) by largely reducing the number of reusable code (by attackers), aka gadgets in a program. Our goal is to develop a method to analyze the available gadgets in programs after instrumentation and determine how practical ROP attacks would be.
+
+We are given instrumented ELF64 programs, a GNU library (GLIBC) and a loader, which performs standard functionality as their Linux counterparts. We are developing a gadget analyzing tool and will apply it to the programs given by NSA first, then we could write our own programs or find existing program sources and compile them with the NSA's GLIBC. Finally we will apply our analytic strategy to conclude their strength.
+
+\section{Timeline}
+Milestone: Complete gadget search tool and progress report by Oct 28th
+\newline\indent
+Oct 22nd - Nov 5th: Analyze the gadgets and try to form a chain and develop a gadget analysis tool.
+\newline\indent\indent
+Milestone: Presentation on Oct 30th.
+\newline\indent
+Nov 6th - Nov 19th: Develop gadgets analysis tool, simulate the execution of instrumentation with GDB.
+\newline\indent\indent
+Milestone: Finish gadget analysis tool by Nov 26th.
+\newline\indent
+Nov 20th - Dec 4th: Compile existing programs with NSA's instrumented library. Applying our measuring criteria.
+\newline\indent\indent
+Milestone: Come up with a graph or diagram showcasing the results of our measurements.
+\newline\indent
+Dec 5th - Dec 18th: Do alternative research for CFI, identify the limitations and complements. Wrap up.
+\newline\indent\indent
+Miletone： Finish final report and poster. Give final presentation.
+    
+\section{Completed Work}
+
+The team has completed the initial stages of gadget discovery, and compiled sets of gadgets using open source tools. The analysis has required the setup of systems to allow for analysis. We also defined the algorithm for gadget discovery in the NSA-protected files, though this still requires verification. As a group we have been meeting and manually analyzing the protected binaries. We have discovered several irregularities in the protection.
+	The gadget discovery algorithm is used in the tools being developed. Jeff Brandon and Tian Tan have begun creating a customized tool in C that can be used to process protected binaries and analyze gadgets from start to finish. Michael Appel modified the open source tool ROPgadget to find gadgets applicable to the NSA CFI model. Tian Tan also defined the working environments and library versions that actually allow standard tools (e.g. objdump and gdb) to work with the binaries (see challenges).
+
+\section{Work in Progress}
+The gadget sets we have have mined from the protected programs provide evidence that their attack surface is greatly reduced. However, the gadgets must be verified to be correct, and the gadgets must still be analyzed for usefulness in creating ROP chains. A formal definition (or towards formal) is being created in order to satisfy that we have extracted all the correct, complete gadgets possible from the binary. The analysis portion will require evaluating by hand or by third party tool (e.g. BAP, Q, or ROPC) the semantics of each gadget to determine its capabilities computationally.
+
+Our individual efforts are more target based. Michael Appel is in contact with researchers from select papers from the literature review (Schwartz, Evans) to achieve repeatable experimentation with analysis of the gadgets. Tian Tan has been heavily involved in technical analysis of gadgets and protected binaries, and will continue in this role to manually analyze gadgets. Jeff Brandon is examining the gadgets for Turing-completeness to determine how well they can be used in an attack, and coordinating upcoming communication with our technical lead at NSA.
+
+\section{Remaining Work}
+The remaining work includes emulating real attacks on the vulnerable programs provided, analyzing the protected libc, researching alternative means to evaluate defenses, and producing a final report and poster. GDB will scripted in order to launch attacks on the binaries. We must instrument the running so that LPI encountered outside of a branching state, or instructions executed during a branching state that are not LPI cause GDB to halt the program.
+
+Next, we must perform similar analysis on libc as we have for the program ls. This will produce a larger data set, and manually analyzing that gadget semantics may not feasible. Therefore, we should try to ensure that the automated systems are compatible or made compatible with these NSA compiled programs.
+
+Also, besides gadget sets and practical attacks, we must add our own means of measuring the defenses of a protected binary. This represents a novel contribution of our work, and may not be possible. CFI has been studied for more than a decade, and our literature review covered many sources. Thus, the focus on this project will be to target the NSA implementation directly, of which we have noticed several oddities (e.g. lack of instrumentation in the PLT).
+
+Finally, we must still produce our poster and report. To this end we are keeping logs of outputs from gadget tools, and will keep semantic analysis logs. Jeff Brandon's targeted effort will focus on repeating our analysis of the program \texttt{ls} on \texttt{libc}. Tian Tan is interested in continuing work with \texttt{GDB} in order to emulate and automate the attack testing. Michael Appel will focus on researching previous work on defense metrics, and developing new approaches.
+
+\section{Difficulties}
+\begin{itemize}
+	\item When configuring our environment, despite NSA's executables could run by itself, whereas the special instrument instructions are treated as NOPs. it is found that they refuse to run with gdb and objdump. After testing with several amd64 platforms, including Kali 2.0, Fedora, ubuntu 15.04...etc, it is found that ubuntu 14.04 is the only one that is compatible with NSA's executables, meaning that gdb and objdump both runs.
+    \item By doing objdump with NSA's executable, it is found that RLP and JLP are not completely applied at the possible landing points of ret and jmp, which needs to be confirmed with TD and possibly expand our scope of gadgets. It is unclear how the instrumented compiler uses the instrumented jlp instruction because it is not present at every jump target.
+    \item There has been some struggle developing the gadget finding tool with respect to how much needs to be written from scratch. It seems that the best solution will be to modify existing open source gadget finding tools to identify the newly instrumented assembly instructions and modify the gadget identification logic to conform to the rules enforced by control flow integrity.
+    \item ROPgadget modifications were naively implemented. The algorithm may be causing a combinatoric explosion, and the program definitely crashes weak virtual machines. This is under bug testing to determine where the space or cpu complexity is becoming too much of a burden. 
+\end{itemize}
+
+\section{Future Project Usage}
+Our gadget search and analysis tool could possibly be given to students in the next INsURE class. In addition, it would be valuable for future students to know the working platform. So, we will determine the cause of system failures with these programs, and release the findings to facilitate environment setup. Finally, future students could refer to our methods of gadget discovery and compilation into ROP chains, in order to verify or dispute our findings. The current state of the project is available through a github repository. At the end of our project we can add our deliverables to that repository or provide a separate one that can be freely forked and further developed. 
+
+\end{document}

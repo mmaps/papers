@@ -1,0 +1,127 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{times}
+\usepackage{indentfirst}
+\usepackage{graphicx} % embedded graphics
+\usepackage{xspace, ifthen}
+\usepackage{amssymb, amsthm} % more mathematical symbols
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{anysize}
+\usepackage{cite}% Hyperlink references, citations, and footnotes
+
+
+% Hyperlink references, citations, and footnotes
+\usepackage[pdftex,colorlinks]{hyperref}
+\hypersetup{
+    %bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat bookmarks
+    pdftoolbar=true,        % show Acrobat toolbar?
+    pdfmenubar=true,        % show Acrobat menu?
+    pdffitwindow=true,      % page fit to window when opened
+    pdftitle={},    % title
+    pdfauthor={},     % author
+    pdfsubject={},   % subject of the document
+    pdfnewwindow=true,      % links in new window
+    pdfkeywords={}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,          % color of internal links
+    citecolor=blue,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\begin{document}
+\title{Control Flow Integrity - Literature Review}
+\author{
+  Appel, Michael\\
+  \texttt{CMU-INI} \\
+  \texttt{moappel@cmu.edu}
+  \and
+  Brandon, Jeff\\
+  \texttt{CMU-INI} \\
+  \texttt{brandj@cmu.edu} 
+  \and
+  Tan, Tian \\
+  \texttt{CMU-INI} \\
+  \texttt{tiant@andrew.cmu.edu}
+}
+\maketitle
+
+% INSTRUCTIONS
+
+% From the course site: http://mews.sv.cmu.edu/teaching/14850/f15/project.html
+% The literature review provides a careful, critical, and thorough explanation of relevant prior work on your project. It should be divided into two parts: background and previous work. Background is the basic material that you need to know to begin your research, but not particular research similar to what you are carrying out. Previous work builds on the background and is research that is directly relevant to your project. The literature review must include a critical evaluation of previous work and an explanation of how this project will be different or better. The review will be due on Oct 2 and will count for 10% of the final course grade.
+
+% From the slides
+% The “story” of your lit review will be similar to that of your SoW, but focusing on the broader problem space
+% – Critical analysis / comparison of existing works in the field
+%– Summary of what has been achieved
+%– Summary of what has not been achieved
+%– Identification of a few interesting open questions or problems of future interest
+
+\section{Background}
+%Background is the basic material that you need to know to begin your research, but not particular research similar to what you are carrying out.
+Control flow is the sequence of instructions executed by a running program. Based on a program’s state, this flow can take different paths by changing the location in the code the CPU fetches instructions. This location is pointed to by the address stored in the EIP register of x86 systems. Beginning with the main function, each possible branching point in the execution of a program (if statements, function calls, loops, etc. ) delineates an elemental piece of a program, called a basic block. The set of these basic blocks can be modeled as nodes in a graph, where a directed edge is drawn between two basic blocks if their instructions are connected in the execution of the program. This data structure is a control flow graph (CFG), which represents the model of possible execution paths a program can take. A programmer expects a running program to proceed only through the basic blocks they have defined. If the EIP only ever fetches instructions from those nodes, and execution only traverses between nodes on those edges then the program has control flow integrity (CFI). The principle of CFI assures that execution only proceeds according to the original programmer's intent.
+\newline
+\indent However, software attacks break this assumption of integrity primarily by either executing attacker controlled code somewhere in memory (a violation by adding nodes and edges to the CFG), or reordering the execution of pieces of code that are already loaded in memory (a violation by adding edges to the CFG). For example, a skilled attacker may overflow a buffer to overwrite a return address to a value of their choosing \cite{alephone}. This historic stack smashing attack works by writing past the bounds of a local variable to cover the return address of the function's stack frame with the location of malicious code\cite{alephone}. When the function attempts to return to the caller, the CPU pops the malicious address from the stack into EIP, and the CPU is now fetching and executing the attacker's instructions.
+\newline
+\indent	In response to attacks like stack smashing, systems were designed with measures like non-executable stacks, called data execution prevention (DEP) in Windows. It is implemented in hardware using the NX bit of Intel chips, which allows the operating system (OS) to define regions of memory that cannot be executed. Attackers overcame DEP by developing heap-based attacks and techniques like "return to libc" (ret2libc), return-oriented-programming (ROP), and jump-oriented-programming (JOP).
+\newline
+\indent Heap-based exploits work by injecting code in non-stack memory locations, and therefore executing malicious code from the heap instead of the DEP protected stack\cite{Foster}. In ret2libc, attackers store addresses of functions included in the program, which are necessarily not on the stack and therefore bypass DEP by picking particular functions to carry out arbitrary operations\cite{SolarDesigner}.
+\newline
+\indent Shacham introduced ROP along with the concept of gadgets (a sequence of instructions ending with ret or similar control flow changing instruction), which makes return-type attacks more effective by eliminating the restriction to calling library functions\cite{Shacham:2007}. In ROP attackers craft the series of gadgets to perform an exploit in the face of DEP, but not the gadgets themselves\cite{goktas}. Since the attacker reuses the program or library code, a non-executable stack will not prevent this type of exploit. With CFI, the number of available gadgets is greatly reduced because not every address is a valid control-transfer point. However, coarse-grained CFI only partially protects the program because attackers could point the return address to library functions which are powerful and valid control-transfer points\cite{carlini}. Such functions have the ability to invoke a shell or change the permissions of memory pages to inject code \cite{goktas}.
+\newline
+\indent These kinds of attacks prompted another defensive measure, address space layout randomization (ASLR), which randomizes included function addresses, thus making it harder for attackers to guess the locations to fill their return chains. However, ASLR also has weaknesses, especially in 32-bit Linux and BSD machines\cite{Shacham:2004}, and several bypasses have been demonstrated theoretically and found in the wild\cite{Wang, Chen}.
+\newline
+\indent All of these attacks necessarily violate the CFI of the program. Therefore, assuring CFI in a system's execution foils all these exploits even if the code being attacked is vulnerable (e.g. uses an unchecked strcpy call). The attack is defeated because execution cannot jump to locations that are not defined by the program as a valid next instruction, and they cannot reorder existing code in a meaningful way \cite{abadi}. Therefore, CFI offers strong guarantees for protection against currently modeled attacks, but its complicated implementations need to be evaluated in order for it to be trusted.
+\newline
+\indent Researchers and programmers have created solutions to software attacks as they arose\cite{Cowan, Vendicator}. However, these software based solutions have been shown to be quickly defeated \cite{Richarte}. The result is an arms-race between attackers and defenders, where the defenders seem to always follow in the footsteps of new attacks. Therefore, a more effective solution is required to guarantee CFI. To that end, the NSA has developed an approach to CFI protections that combines hardware and software, and would require significant industry acceptance to be widely deployed. The NSA project functions as a starting point for organizations to begin researching the adoptions of the proposed strategies \cite{NSAGitHub}.
+\newline
+\indent The proposal calls for the addition of only two features: landing point (LP) instructions and a protected shadow stack \cite{NSAGitHub}. LP instructions are generated at compile time or inserted in existing binaries with reference source (i.e. recompiling). They provide hardware based, coarse grained guarantees in the points of possible changes in control flow by creating a bitmap of all possible branches. Shadow stacks complement LP instructions because they handle fine grained control at run-time \cite{abadi}. The program saves copies of return addresses to the shadow stack when calls are made, and checks or overwrites the return address used by the retn instruction. This either restores execution preventing an attack, or halts the program logging awareness of the attack. The NSA notes that the shadow stack must be protected to avoid corruption by software bugs.
+\newline
+\indent The NSA has produced a detailed proposal of the possible system with recommendations for future work and adoption \cite{NSAGitHub}. Along with the proposal, they have open sourced an instrumented C library and program that are protected under their new scheme. While the NSA’s CFI project is detailed and thorough, there has been little explicit study into the practical strengths and weaknesses of their approach. Thus our work is to reason about the defenses of the implementation, and provide proof of theory or empirical evidence of its threat reduction capabilities. This added confidence helps strengthen the argument for industry partners to move forward with adopting these kinds of protections, and implementing the changes necessary in hardware and system software design.
+
+
+\section{Previous Work}
+%Previous work builds on the background and is research that is directly relevant to your project. The literature review must include a critical evaluation of previous work and an explanation of how this project will be different or better.
+\indent There has been a lot of research in control flow integrity. One way to achieve it is to use a parallel shadow stack, which is placed at a fixed offset from the main stack, and stores return function return addresses \cite{dang}. When the program returns from a function, it could either compare the return address on the normal stack with the one on the shadow stack or directly use the return address from shadow stack. The shadow stack method is talked about in many papers \cite{abadi, dang, evans, conti, carlini, schwartz}, and it seems to be the main technique for enforcing fine grained control flow guarantees at run time. Abadi et al propose techniques for enforcing policy defined by a CFG which may be derived using static binary analysis on the software \cite{abadi}. This graph contains all possible valid execution paths, and these paths can be checked against whenever the program performs an instruction that affects control flow. This static method of enforcement puts a label at the landing point - where the control is transferred to and inserts instructions to check the label before jump. This method is also referenced in \cite{NSAGitHub}, but the their method inserts special control flow instructions instead of labels. However, the static CFG will not work for dynamic jumps or calls, so another enforcing method is required \cite{abadi}. This is where the shadow stack is used for run time enforcement of CFG policy, ensuring that a function returns to the location it was called from.
+\newline
+\indent Our work is related to several recent, published attacks demonstrated on various CFI implementations both coarse and fine grained \cite{goktas, carlini, conti, Davi:2014}. As well as other recent attempts to quantify the defenses of CFI \cite{Zhang:2013:COTS}. However, we are concerned with targeting the NSA proposed implementation with these attacks. Therefore, this paper builds on this related work by showing whether or not the NSA has solved the most recent and sophisticated attacks on CFI, and how well this CFI implementation compares in empirical measures of defense.
+\newline
+% Davi et al
+\indent First, the work by Davi et al argues that CFI, while a powerful defense, has been weakened in implementation because researchers have attempted to compromise the integrity in pursuit of better performance\cite{Davi:2014}. The performance overhead of the proven CFI by Abadi et al\cite{abadi} is argued to inhibit the adoption of this defense. Therefore, Davi et al's work finds that these weakened coarse-grained controls provide ample room for attackers to exploit a system within the confines of CFI protections.
+\newline
+\indent Davi et al introduce new types of gadgets, a Call-Ret-Pair gadget and Long-NOP gadget\cite{Davi:2014}. Their research demonstrates useful methods for mining gadgets, and thoroughly explains the requirements for a Turing-complete gadget set. However, while they do demonstrate an attack on Linux using libc (our targeted platform), they primarily examine CFI on Windows. They also arbitrarily restrict themselves to mining gadgets from one included library, which they admit is a severe restriction but do not explain why exactly they do this. It is believed they do this in order to differentiate their work from other concurrent research, for example Goktas et al \cite{goktas} and Carlini \cite{carlini}. This restriction weakens their assumed adversary, and while they still demonstrate exploits, a stronger assumption here would prove a stronger defense in our system. 
+\newline
+\indent Importantly, Davi et al describe a successful attack on an application vulnerable to a buffer overflow on the Linux platform. Their attack does not violate CFI principles, but utilizes the global offset table (GOT) in Linux to expand their gadget selection to non-included functions. The GOT is vulnerable to being overwritten, and altering functions accessible through the GOT does not violate the CFG. They note that while the attack is older, it is successful in the face of modern CFI\cite{Bulba}.
+\newline
+\indent Our work will expand on the analysis of Davi et al by using their research as a benchmark of defense. The NSA CFI does not necessarily suffer from these coarse-grained weaknesses, and because of its hardware backing the performance should be improved. Thus, it gives full protection with less hindrance, which should aid adoption. If we can show that the attacks by Davi et al on CFI implementations do not work against the NSA CFI then we have established its merit when evaluating the security vs performance trade off. Also, by applying their gadget search (including their new gadgets) and Turing-complete requirements we can directly compare the NSA CFI with the results from Davi et al's CFI exemplars.
+\begin{enumerate}
+\item 
+\begin{itemize}
+\item 
+\end{itemize}
+\end{enumerate}
+
+% Zhang:2013:CCFIR
+\indent Next, the work done on implementing Compact Control Flow Integrity and Randomization (CCFIR)\cite{Zhang:2013:CCFIR} by Zhang et al, describes a system to provide CFI to pre-compiled programs that lack source code or debug symbols. Davi et al assumed that ASLR was turned off\cite{Davi:2014}, but CCFIR depends on the relocation tables in order to instrument the legitimate jump targets. Zhang et al assume that the randomization aspect, which draws from ASLR, is vulnerable to information leakage attacks and may be nullified. Also, CCFIR is assumed to not work on self-modifying or dynamic code because their defense is founded on static analysis. To this end, Zhang et al disable the JavaScript (JS) in their browser tests because the just-in-time (JIT) compiler would not work with CCFIR. Because JavaScript is such an integral part of the modern internet, disabling it seems like a necessary, but huge leap from being a practical, complete defense. However, it is not clear that the NSA CFI would be able to provide any protections in dynamic environments like a JIT compiler either.
+\newline
+\indent The use of relocation tables by Zhang et al in the CCFIR paper is important because they show that when compilers using current protections, like DEP and ASLR, generate machine code the resulting binary can be analyzed completely\cite{Zhang:2013:CCFIR}. Zhang et al define several rules including the important conclusion that all indirect branch instruction targets can be indexed through the relocation table created. Zhang notes that previous work does not use relocation tables effectively \cite{Schwarz:2002}, or uses heuristics to imperfectly separate the code and data sections of binaries \cite{Prasad:2003, IDA, Hiser:2012}. This directly relates to the number of gadgets that are able to be discovered in a compiled program. If the disassembled code is incomplete, then the ROP gadget count is also reduced. Thus, any metrics of gadget set size could be artificially reduced.
+\newline
+\indent Like other research examined in this review, Zhang et al use quantifiable measures to evaluate the defenses of their implementation. These include counting ROP gadgets, measuring the entropy of their additional randomization effort, and confirming the number of remaining real-world exploits that are still effective. For gadget counting, Zhang et al use the tool MONA\cite{Mona} to count gadgets in programs that are protected by CCFIR and not. This measure is almost universal in our review. The entropy measure is the same across all programs, and is dependent on their randomization of function call stubs within their "Springboard"\cite{Zhang:2013:CCFIR}. The Springboard is possibly \(2^{27}\) (128MB) in size, and because each stub is less than \(2^4\) bytes, it follows that there are \(2^{23}\) possible stub slots in the Springboard \cite{Zhang:2013:CCFIR}. Zhang et al argue that this is beyond the reach of brute force attacks like those that bypass ASLR in 32-bit binaries. The NSA CFI does not include this randomization approach, but it should not be necessary given a sound CFI assurance. If we are able to derive a working attack on the NSA CFI then implementing this randomization may be a good recommendation. Finally, Zhang et al utilize practical attacks from Metasploit \cite{Metasploit}, in order to prove that CCFIR is effective against them all using common-off-the-shelf (COTS) software like Firefox and Internet Explorer. It is important to note that the versions of their programs are necessarily old (e.g. Firefox 3 and Internet Explorer 6) in order for the attacks to work. The assumption here is that if CCFIR can protect old, buggy legacy code then it can also protect modern, protected executables. Though, there are cases of patches creating new exploits or bugs, it is generally safe to make this assumption. Thus, because our work is mainly concerned with evaluation of defense we can utilize the same standards from Zhang et al's Metasploit test to attack the NSA CFI.
+\newline
+% Goktas and Zhang:2013:COTS
+\indent Likewise, Goktas et al also demonstrate two new types of gadgets, and use the set of gadgets available to attackers as a means of evaluating CFI \cite{goktas}. However, their research is aimed primarily at studying implementations of less restrictive CFI. The CFI implementation CCFIR \cite{Zhang:2013:CCFIR}, makes a trade off for performance by using coarse grained protections, and not implementing a shadow stack. So, their attack is not reasonably expected to work on the NSA CFI, but Goktas et al ROP gadget evaluation techniques can be applied to measure defensive capabilities.
+\newline
+\indent	The ROP gadget analysis begins with collection of gadgets into sets. Goktas et al note that each executable byte of a program file must be considered as the possible start of a gadget, but references the work of Zhang et al who found the presence of even coarse grained CFI (protections only on static function calls) reduces that set by 98\% \cite{Zhang:2013:COTS}. The reduction is calculated by comparing the ratio of indirect control flow branches in a protected program against an unprotected version. As Goktas and Zhang note, in x86 this is the size of the executable because variable length instructions allow non-aligned address execution. This figure is the average indirect control flow reduction (AIR), and is defined in Zhang's work as a quantitative measure of the quality of defense. We will also use this metric because it allows us to empirically compare work with a normalized scoring.
+\newline
+\indent Zhang utilizes ROPgadget\cite{Salwan} in order to generate gadget sets for exploits \cite{Zhang:2013:COTS}. This methodology is not explained to be thorough, as noted above Goktas et al have defined two new gadget types that did not exist in ROPgadget at the time of Zhang's work. Therefore, while ROPgadget is a quick method to generate gadgets, it may not lead us to a complete answer. However, Goktas et al do not clearly define their algorithm for enumerating gadgets in \cite{goktas}. Thus, our work will build on these methods to find a more complete and well-defined solution to enumerating possible ROP gadgets. In their work on implementing bin-CFI \cite{Zhang:2013:COTS}, Zhang et al utilized RIPE: runtime intrusion prevention evaluator \cite{Wilander:2011} to measure a practical attack defense capability. Their results were promising in the reduction of possible attacks. We cannot directly run RIPE on our binaries because we do not have an emulator capable of handling LP instructions. Therefore, we will work from archetypes of these attacks, and script them in a tool like GDB in order to determine their outcome while breakpoints on LP instructions emulate future hardware.
+\newline
+\indent In conclusion, our current project resembles the previous CFI instrumentation research. Our contribution lies in our project implementing new instrumentation instructions in the hardware and changing the behavior of control transfer instructions - jmp, ret, call \cite{NSAGitHub}. These new hardware instructions correspond to jmp, ret or call and they also use a shadow stack for increased run time guarantees. Based on the previous research papers we have reviewed, we could develop our own ROP gadget finder to search for gadgets available to attackers after CFI instrumentation, and compare it with the number of ROP gadgets available in a non CFI-protected program. Then we could draw some conclusions on the effectiveness of the NSA's CFI methodology.
+\newpage
+\bibliography{cfi.bib}{}
+\bibliographystyle{plain}
+\end{document}
